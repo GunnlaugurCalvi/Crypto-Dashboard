@@ -6,6 +6,7 @@ import './App.css';
 
 import AppLayout from './AppLayout';
 import AppBar from './AppBar';
+import {AppProvider} from './AppProvider';
 
 const MyButton = styled.div`
   color: green;
@@ -15,9 +16,11 @@ class App extends Component {
   render() {
     return (
       <AppLayout>
-        <AppBar />
-        <Welcome />
-        <MyButton>hello</MyButton>
+        <AppProvider> 
+          <AppBar />
+          <Welcome />
+          <MyButton>hello</MyButton>
+        </AppProvider>
       </AppLayout>
     );
   }
