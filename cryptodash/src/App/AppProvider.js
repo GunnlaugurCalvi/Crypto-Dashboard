@@ -2,6 +2,9 @@ import React from 'react';
 import { Component, createContext } from 'react';
 import styled from 'styled-components';
 
+//cryptocompare API wrapper
+const cc = require('cryptocompare');
+
 const AppContext = createContext();
 
 class AppProvider extends Component {
@@ -19,6 +22,17 @@ class AppProvider extends Component {
 		}
 
 		this.setPage = this.setPage.bind(this);
+	}
+
+	componentDidMount = () =>
+	{
+		this.fetchCoins();
+	}
+
+	fetchCoins = async () => 
+	{
+		let coinList = (await cc.coinList()).Data;
+		this.setState({coinList});
 	}
 
 	confirmFavorites = () =>
