@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import Welcome from './Welcome';
 import styled from 'styled-components';
+
 import './App.css';
+
+import AppLayout from './AppLayout';
+import AppBar from './AppBar';
 
 const MyButton = styled.div`
   color: green;
@@ -10,10 +14,11 @@ const MyButton = styled.div`
 class App extends Component {
   render() {
     return (
-      <div>
+      <AppLayout>
+        <AppBar />
         <Welcome />
         <MyButton>hello</MyButton>
-      </div>
+      </AppLayout>
     );
   }
 }
