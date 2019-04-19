@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Welcome from './Welcome';
 import styled from 'styled-components';
 
 import './App.css';
 
+import Settings from '../Settings';
 import AppLayout from './AppLayout';
 import AppBar from './AppBar';
 import {AppProvider} from './AppProvider';
@@ -18,7 +18,7 @@ class App extends Component {
       <AppLayout>
         <AppProvider> 
           <AppBar />
-          <Welcome />
+          <Settings />
           <MyButton>hello</MyButton>
         </AppProvider>
       </AppLayout>
