@@ -2,6 +2,7 @@ import React from 'react';
 import { Component, createContext } from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
+import toastr from 'toastr';
 
 //cryptocompare API wrapper
 const cc = require('cryptocompare');
@@ -47,6 +48,10 @@ class AppProvider extends Component {
 		{
 			favorites.push(key);
 			this.setState({favorites});
+		}
+		else
+		{
+			toastr.info('Max fav coins is 15')
 		}
 	}
 
