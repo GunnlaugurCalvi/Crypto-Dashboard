@@ -2,12 +2,15 @@ import React from 'react';
 import { Component, createContext } from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
+import moment from 'moment';
 
 //cryptocompare API wrapper
 const cc = require('cryptocompare');
 
 const AppContext = createContext();
-const MAX_FAVORITES = 15;
+const MAX_FAVORITES = 10;
+const TIME_UNITS = 10;
+
 class AppProvider extends Component {
 
 	constructor(props)
@@ -33,6 +36,7 @@ class AppProvider extends Component {
 	{
 		this.fetchCoins();
 		this.fetchPrices();
+		this.fetchHistorical();
 	}
 
 	fetchCoins = async () => 
@@ -47,6 +51,26 @@ class AppProvider extends Component {
 			return;
 		let prices = await this.prices();
 		this.setState({prices});
+	}
+
+	fetchHistorical = async () =>
+	{
+		if (this.state.firstVisit)
+			return;
+
+		let results = await this.historical();
+		let historical = [
+			{
+				name: this.state.currentFavorite,
+				data: results.map((ticker, index) =>
+				[
+					moment().subtract({months: TIME_UNITS - index}).valueOf(),
+					ticker.USD
+				])
+			}
+		]
+
+		this.setState({historical});
 	}
 
 	prices = async () => 
@@ -65,6 +89,19 @@ class AppProvider extends Component {
 			}
 		}
 		return returnData;
+	}
+
+	historical = () =>
+	{
+		let promises = [];
+		for (let units = TIME_UNITS; units > 0; units--)
+		{
+			promises.push(
+				cc.priceHistorical(this.state.currentFavorite, ['USD'], moment().subtract({months: units}).toDate())
+			)
+		}
+
+		return Promise.all(promises);
 	}
 
 	addCoin = key =>
@@ -96,8 +133,11 @@ class AppProvider extends Component {
 			firstVisit: false,
 			page: 'dashboard',
 			currentFavorite,
+			prices: null,
+			historical: null
 		}, () => {
 			this.fetchPrices();
+			this.fetchHistorical();
 		});
 
 		localStorage.setItem('cryptoDash', JSON.stringify({
@@ -110,9 +150,10 @@ class AppProvider extends Component {
 	{
 		this.setState(
 		{
-			currentFavorite: sym
-		});
-		
+			currentFavorite: sym,
+			historical: null
+		}, this.fetchHistorical);
+
 		localStorage.setItem('cryptoDash', JSON.stringify({
 			...JSON.parse(localStorage.getItem('cryptoDash')),
 			currentFavorite: sym
