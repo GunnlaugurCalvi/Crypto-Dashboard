@@ -1,6 +1,6 @@
 ## Simple Cryptocurrency Dashboard 
 
-** Tools
+* Tools
   * Modern React Development with React & React Context API for State Management
   * Build a Complete CryptoCurrency Financial Reporting App
   * Styled-components v4 : Dynamic CSS-in-JS
