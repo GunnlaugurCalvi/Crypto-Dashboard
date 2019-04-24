@@ -11,6 +11,3 @@
   * Lodash : Functional Programming
   * Create-React-App 2.0 : Boilerplate Quickly
   * localStorage : Save Coins
-
-
-Course from [Udemy](https://www.udemy.com/share/100vVyAkQTcF5VRXg=/)
